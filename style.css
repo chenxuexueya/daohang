@@ -16,7 +16,7 @@ kbd:hover>button{
     display: inline-block;
 }
 body{
-    background: gray url(./cj.jpg) no-repeat center center;
+    background: gray url(./cj.png) no-repeat center center;
     background-size: cover;
 }
 main{text-align: center;
