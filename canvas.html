@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <mate name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0"></mate>
+    <title>canvas画板</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="xxx" width="300" height="300"></canvas>
+    <action id="actions" class="actions">
+            <button id="eraser">橡皮擦</button>
+            <button id="brush">画笔</button>
+    </action>
+    
+</body>
+<script>
+var yyy=document.getElementById('xxx')
+jh()
+window.onresize = function(){
+    jh()
+}
+function jh(){
+    var pageWidth = document.documentElement.clientWidth
+    var pageHeight = document.documentElement.clientHeight
+    yyy.width = pageWidth
+    yyy.height = pageHeight
+}
+var context = yyy.getContext("2d")
+var using = false
+var lastpoint = {x:undefined,y:undefined}
+if(document.body.ontouchstart !==undefined){
+    canvas.ontouchstart = function(aaa){
+        var x = aaa.touches[0].clientX
+        var y = aaa.touches[0].clientY
+    }
+    canvas.ontouchmove = function(aaa){
+        var x = aaa.touches[0].clientX
+        var y = aaa.touches[0].clientY
+    }
+    canvas.ontouchend = function(){
+        using = false
+    }
+}else{
+    yyy.onmousedown=function(aaa){
+    var x = aaa.clientX
+    var y = aaa.clientY
+    if(usingEraser){
+        using = true
+        context.clearRect(x,y,10,10)
+    }else{
+        using = true
+        lastpoint = {"x":x,"y":y}
+    }
+}
+yyy.onmousemove = function(aaa){
+        var x = aaa.clientX
+        var y = aaa.clientY
+    if(usingEraser){
+        if(using){
+            context.clearRect(x,y,10,10)
+        }
+    }else{
+        if(using){
+        var newPoint = {"x":x,"y":y}
+        drawline(lastpoint.x,lastpoint.y,newPoint.x,newPoint.y)
+        lastpoint=newPoint
+        } 
+    }
+}
+yyy.onmouseup = function(aaa){
+     using = false
+}
+}
+
+function drawCircle(x,y,radius){
+    context.beginPath()
+    context.fillStyle = "black"
+    context.arc(x,y,radius,0,Math.PI*2);
+    context.fill()
+}
+function drawline(x1,y1,x2,y2){
+    context.beginPath();
+    context.strokeStyle = "black"
+    context.moveTo(x1,y1)
+    context.linewidth = 5
+    context.lineTo(x2,y2)
+    context.stroke()
+    context.closePath()
+}
+var usingEraser = false
+eraser.onclick = function(){
+    usingEraser = true
+    actions.classname = "actions x"
+}
+brush.onclick = function(){
+    usingEraser = false
+    actions.classname = "actions"
+}
+</script>
+</html>
